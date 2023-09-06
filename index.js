@@ -1,0 +1,17 @@
+const express = require("express");
+let cors = require("cors");
+const app = express();
+const mongoose = require("mongoose");
+const question = require("./routes/question");
+const answer = require("./routes/answer");
+const user = require("./routes/user");
+let url = "mongodb://0.0.0.0";
+mongoose.connect(url, { useNewUrlParser: true }, { useUnifiedTopology: true });
+app.use(cors());
+const con = mongoose.connection;
+app.use(express.json());
+con.on("open", () => console.log("Connected"));
+app.use("/", question);
+app.use("/answer", answer);
+app.use("/authentication", user);
+app.listen(3000, () => console.log("server up"));
